@@ -50,10 +50,11 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 def ThreatGrid_get():
     api_key = THREATGRID_API_KEY
     print("\n==> Getting recent events from ThreatGrid")
-    url = 'https://panacea.threatgrid.com/api/v2/iocs/feeds/domains?after=2018-07-18T21:39:13Z&before=2019-07-18T22:39:13Z&domain=lamp.troublerifle.bid&api_key={}'.format(api_key)
+    url = f'https://panacea.threatgrid.com/api/v2/iocs/feeds/domains?after=2018-07-18T21:39:13Z&before=2019-07-18T22:39:13Z&domain=lamp.troublerifle.bid&api_key={api_key}'
+
     r = requests.get(url)
     r.raise_for_status()
-    print(green(f"Retrieved events from ThreatGrid..."))
+    print(green("Retrieved events from ThreatGrid..."))
 
     return (r.json())
 
@@ -61,12 +62,12 @@ def ThreatGrid_get():
 def verify() -> bool:
     """ThreatGrid APIs"""
     print(blue("\n==> Verifying access to the ThreatGrid APIs"))
-    
+
     try:
-        if(len(ThreatGrid_get())):
+        if (len(ThreatGrid_get())):
             print(green(f" ThreatGrid API is accessible!\n"))
         else:
-            print(red(f" ThreatGrid API is accessible, API credentials might be wrong"))
+            print(red(" ThreatGrid API is accessible, API credentials might be wrong"))
     except:
         print(red("Unable to contact ThreatGrid Cloud"))
         return False

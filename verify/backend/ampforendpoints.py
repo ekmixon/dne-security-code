@@ -65,7 +65,7 @@ def get_amp_events(
 
     events_list = response.json()
 
-    print(green(f"Retrieved events from AMP..."))
+    print(green("Retrieved events from AMP..."))
 
     return events_list
 
@@ -73,16 +73,20 @@ def get_amp_events(
 def verify() -> bool:
     """Verify access to the AMP for Endpoints APIs."""
     print(blue('\n\n==> Verifying access to the AMP for Endpoints APIs'))
-     # Verify the Spark Room exists and is accessible via the access token
     try:
-        if(len(get_amp_events())):
+        if (len(get_amp_events())):
             print(green(f"AMP for endpoints API is accessible!\n"))
         else:
-            print(red(f"AMP for endpoints API is accessible, API credentials might be wrong"))
+            print(
+                red(
+                    "AMP for endpoints API is accessible, API credentials might be wrong"
+                )
+            )
+
     except:
         print(red("Unable to contact AMP for Endpoints"))
         return False
-   
+
     return True
 
 

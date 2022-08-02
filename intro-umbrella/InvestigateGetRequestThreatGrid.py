@@ -20,6 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 from datetime import datetime
 import requests
 import socket
@@ -64,10 +65,7 @@ investigate_url = "https://investigate.api.umbrella.com/samples/"
 domain = "internetbadguys.com"
 
 #create header for authentication and set limit of sample return to 1
-headers = {
-    'Authorization': 'Bearer ' + investigate_api_key,
-    'limit': '1'
-}
+headers = {'Authorization': f'Bearer {investigate_api_key}', 'limit': '1'}
 
 # assemble the URI, show labels give readable output
 get_url = investigate_url + domain

@@ -87,8 +87,7 @@ def get_amp_computer_details( url,
 
     response = MISSION
     response.raise_for_status()
-    events_list = response.json()["data"]
-    return events_list
+    return response.json()["data"]
 
 
 def extract_observables(amp_events):

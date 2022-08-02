@@ -27,6 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+
 from importlib.util import module_from_spec, spec_from_file_location
 from glob import glob
 import os
@@ -49,7 +50,7 @@ try:
     print("==> Importing env_lab")
     import env_lab  # noqa
 except Exception as e:
-    print("FAILED: Error importing env_lab.py; error details:\n{}\n".format(e))
+    print(f"FAILED: Error importing env_lab.py; error details:\n{e}\n")
     sys.exit(1)
 
 
@@ -64,10 +65,7 @@ except ModuleNotFoundError:
     )
     sys.exit(1)
 except Exception as e:
-    print(
-        "\nFAILED: Error importing `env_user.py`. Error Details:\n"
-        "{}\n".format(e)
-    )
+    print(f"\nFAILED: Error importing `env_user.py`. Error Details:\n{e}\n")
     sys.exit(1)
 
 

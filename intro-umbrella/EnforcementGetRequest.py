@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+
 from datetime import datetime
 import requests
 import configparser
@@ -58,7 +59,7 @@ time = datetime.now().isoformat()
 domain_url = "https://s-platform.api.opendns.com/1.0/domains"
 
 # URL needed for POST request
-url_get = domain_url + '?customerKey=' + enforcement_api_key
+url_get = f'{domain_url}?customerKey={enforcement_api_key}'
 
 # create empty list to contain all domains already in Umbrella
 domain_list = []
@@ -67,8 +68,7 @@ domain_list = []
 while True:
     req = requests.get(url_get)
     json_file = req.json()
-    for row in json_file["data"]:
-        domain_list.append(row["name"])
+    domain_list.extend(row["name"] for row in json_file["data"])
     # GET requests will only list 200 domains, if more than that, it will request next bulk of 200 domains
     if bool(json_file["meta"]["next"]):
         Url = json_file["meta"]["next"]

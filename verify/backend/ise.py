@@ -76,10 +76,10 @@ def verify() -> bool:
     """Verify access to the ISE ERS REST APIs."""
     print(blue("\n==> Verifying access to the ISE ERS REST APIs for Environment."))
     try:
-        if(len(get_ise_anc_policies())):
+        if (len(get_ise_anc_policies())):
             print(green(f"ISE ERS REST API is accessible!\n"))
         else:
-            print(red(f"ISE ERS REST API is accessible, API credentials might be wrong"))
+            print(red("ISE ERS REST API is accessible, API credentials might be wrong"))
     except:
         print(red("Unable to contact ISE ERS REST API"))
         return False

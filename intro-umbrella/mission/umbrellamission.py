@@ -86,7 +86,7 @@ investigate_api_key = UMBRELLA_INVESTIGATE_KEY
 event_url = UMBRELLA.get("en_url")
 
 # URL needed for POST request
-url_post = event_url + '?customerKey=' + enforcement_api_key
+url_post = f'{event_url}?customerKey={enforcement_api_key}'
 
 inv_u = UMBRELLA.get("inv_url")
 
@@ -95,10 +95,7 @@ env_lab.print_missing_mission_warn(env_lab.get_line())
 investigate_url = MISSION
 
 #create header for authentication and set limit of sample return to 1
-headers = {
-'Authorization': 'Bearer ' + investigate_api_key,
-'limit': '1'
-}
+headers = {'Authorization': f'Bearer {investigate_api_key}', 'limit': '1'}
 #print(url_post)
 
 def get_DomainStatus(getUrl, domain):
@@ -159,14 +156,13 @@ def handleDomains(filename):
             print(f"Working on {MISSION} .....")
             get_url = investigate_url + MISSION +  "?showLabels"
             status = get_DomainStatus(get_url, MISSION)
-            if(status != "error"):
-                if ((status == "bad") or (status == "risky")):
-                    post_Enforcement(MISSION)
-                    domain_list_f.append(MISSION)
-                else:
-                    print(f"Found clean domain, ignoring enforcement on {MISSION}")
-            else:
+            if status == "error":
                 print("got error from Umbrella investigate")
+            elif status in ["bad", "risky"]:
+                post_Enforcement(MISSION)
+                domain_list_f.append(MISSION)
+            else:
+                print(f"Found clean domain, ignoring enforcement on {MISSION}")
         #Let's save another file with Umbrella Disposition on Domains
         # so that we block only bad & risky domains on firewalls
         filenamed = repository_root / "mission-data/riskydomains.json"
@@ -175,16 +171,17 @@ def handleDomains(filename):
         print("\nExiting...\n")
 
 def post_Enforcement(domdata):
-    data={
-                "alertTime": time + "Z",
-                "deviceId": "ba6a59f4-e692-4724-ba36-c28132c761de",
-                "deviceVersion": "13.7a",
-                "dstDomain": domdata,
-                "dstUrl": "http://" + domdata + "/",
-                "eventTime": time + "Z",
-                "protocolVersion": "1.0a",
-                "providerName": "Security Platform"
+    data = {
+        "alertTime": f"{time}Z",
+        "deviceId": "ba6a59f4-e692-4724-ba36-c28132c761de",
+        "deviceVersion": "13.7a",
+        "dstDomain": domdata,
+        "dstUrl": f"http://{domdata}/",
+        "eventTime": f"{time}Z",
+        "protocolVersion": "1.0a",
+        "providerName": "Security Platform",
     }
+
     request_post = requests.post(url_post, data=json.dumps(data), headers={
                                              'Content-type': 'application/json', 'Accept': 'application/json'})
     if(request_post.status_code == 202):

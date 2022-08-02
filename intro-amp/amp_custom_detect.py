@@ -88,8 +88,7 @@ def post_to_amp(
     response = requests.post(url, post_this, verify=False)
     response.raise_for_status()
 
-    rdata = response.json()["data"]
-    return rdata
+    return response.json()["data"]
 
 # If this script is the "main" script, run...
 if __name__ == "__main__":

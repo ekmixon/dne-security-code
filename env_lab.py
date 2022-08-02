@@ -102,7 +102,7 @@ elif ENVIRONMENT_IN_USE == "custom":
     # Your ThreatGrid
     THREATGRID = {"host": ""}
 
-        
+
 """Helper functions for the missions"""
 
 

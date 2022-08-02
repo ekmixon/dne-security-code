@@ -20,10 +20,7 @@ def generate_fortune() -> str:
 
 def generate_lucky_numbers(how_many: int) -> list:
     """Returns a list of (random) 'lucky' numbers."""
-    lucky_numbers = []
-    for _ in range(how_many):
-        lucky_numbers.append(random.randint(0, 99))
-    return lucky_numbers
+    return [random.randint(0, 99) for _ in range(how_many)]
 
 
 def create_fortune_cookie_message(how_many_lucky_numbers: int) -> str:

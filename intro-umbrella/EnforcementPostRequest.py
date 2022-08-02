@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+
 from datetime import datetime
 import requests
 import socket
@@ -68,19 +69,20 @@ time = datetime.now().isoformat()
 domain = "internetbadguys.com"
 
 # URL needed for POST request
-url_post = event_url+'?customerKey='+ enforcement_api_key
+url_post = f'{event_url}?customerKey={enforcement_api_key}'
 
 # NOTE: Although this information MUST be provided when using the API, not all of it is utilized in the destination lists within Umbrella
 data = {
-    "alertTime": time + "Z",
+    "alertTime": f"{time}Z",
     "deviceId": "ba6a59f4-e692-4724-ba36-c28132c761de",
     "deviceVersion": "13.7a",
     "dstDomain": domain,
-    "dstUrl": "http://" + domain + "/",
-    "eventTime": time + "Z",
+    "dstUrl": f"http://{domain}/",
+    "eventTime": f"{time}Z",
     "protocolVersion": "1.0a",
-    "providerName": "Security Platform"
+    "providerName": "Security Platform",
 }
+
 
 # POST REQUEST: post request ensembly
 req = requests.post(url_post, data=json.dumps(data), headers={'Content-type': 'application/json', 'Accept': 'application/json'})

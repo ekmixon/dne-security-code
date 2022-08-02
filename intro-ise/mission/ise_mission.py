@@ -50,19 +50,14 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # Functions
 
 def createPayload(maclist, policy):
-    data_to_send = {
+    return {
         'OperationAdditionalData': {
-            'additionalData' : [{
-                'name': 'macAddress',
-                f'value': maclist
-                },
-                {
-                    'name': 'policyName',
-                    f'value': policy
-                    }]
+            'additionalData': [
+                {'name': 'macAddress', 'value': maclist},
+                {'name': 'policyName', 'value': policy},
+            ]
         }
     }
-    return data_to_send
 
 
 def readmacaddr_file(filename) :

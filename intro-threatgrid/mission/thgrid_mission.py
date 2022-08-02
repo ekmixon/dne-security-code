@@ -73,9 +73,9 @@ def get_FromThreatGrid(path,
     """GET method for Threatgrid."""
     url = f"{host}/api/v2"
     response = requests.get(
-        "https://{}{}&api_key={}".format(url, path, key),
-        headers=th_headers
+        f"https://{url}{path}&api_key={key}", headers=th_headers
     )
+
     #print (response.json())
     # Consider any status other than 2xx an error
     response.raise_for_status()
@@ -84,9 +84,9 @@ def get_FromThreatGrid(path,
 
 def find_Obervables(sha_256_1):
     print(f"Picking up the next sha from the list: {sha_256_1} ")
-    samples = get_FromThreatGrid("/search/submissions?q={}".format(sha_256_1))
+    samples = get_FromThreatGrid(f"/search/submissions?q={sha_256_1}")
     #print (samples)
-    if(samples == None):
+    if samples is None:
         return
     if (samples == "Response [408]"):
         return
@@ -96,8 +96,10 @@ def find_Obervables(sha_256_1):
     for sample in samples['data']['items']:
         sample_ids[sample["item"]["sample"]
                    ] = sample["item"]["analysis"]["threat_score"]
-        for behavior in sample["item"]["analysis"]["behaviors"]:
-            behaviors.append(behavior["title"])
+        behaviors.extend(
+            behavior["title"]
+            for behavior in sample["item"]["analysis"]["behaviors"]
+        )
 # Prepare TG report to screen with average score after number of runs and behavior
     behaviors = set(behaviors)
     num_of_runs = len(sample_ids)
@@ -107,7 +109,7 @@ def find_Obervables(sha_256_1):
     writeme=[]
     for sample, score in sample_ids.items():
         total = total + score
-        sample_string = "{}{},".format(sample_string, sample)
+        sample_string = f"{sample_string}{sample},"
     if(num_of_runs>0):
         print(f"Threat Score of sample: {total/num_of_runs}\n")
     else:
@@ -122,21 +124,22 @@ def find_Obervables(sha_256_1):
     #print (sample_string)
     if len(sample_string) != 0:
         domains = get_FromThreatGrid(
-            "/samples/feeds/domains?sample={}&after=2018-2-2".format(sample_string)) # if no samples returned, increase range, e.g. check out after 2010-07-18T21:39:13Z
+            f"/samples/feeds/domains?sample={sample_string}&after=2018-2-2"
+        )
+
         if (domains == "Response [408]"):
             return
-        else:
-            for domain in domains["data"]["items"]:
-                if domain["relation"] == "dns-lookup":
-                    for item in domain["data"]["answers"]:
-                        observables.append({
-                            "domains": domain["domain"],
-                            "ip_address": item,
-                        })
+        for domain in domains["data"]["items"]:
+            if domain["relation"] == "dns-lookup":
+                for item in domain["data"]["answers"]:
+                    observables.append({
+                        "domains": domain["domain"],
+                        "ip_address": item,
+                    })
 
 def writer_file(filename, glist, ioc):
     with open(filename, "w") as file:
-        if ioc==None:
+        if ioc is None:
             json.dump(glist, file, indent=2)
         else:
             jsondata = [o[ioc] for o in glist]

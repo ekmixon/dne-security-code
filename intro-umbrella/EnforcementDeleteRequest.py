@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+
 from datetime import datetime
 import requests
 import socket
@@ -63,7 +64,8 @@ domain_url = "https://s-platform.api.opendns.com/1.0/domains"
 
 delete_domain = "internetbadguys.com"
 
-url_delete = domain_url + '?customerKey=' + enforcement_api_key + '&where[name]='+ delete_domain
+url_delete = f'{domain_url}?customerKey={enforcement_api_key}&where[name]={delete_domain}'
+
 
 req = requests.delete(url_delete)
 

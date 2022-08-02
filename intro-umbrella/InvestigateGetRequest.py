@@ -20,6 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 from datetime import datetime
 import requests
 import configparser
@@ -67,9 +68,7 @@ investigate_url = f"{inv_u}/domains/categorization/"
 domain = "internetbadguys.com"
 
 #create header for authentication
-headers = {
-  'Authorization': 'Bearer ' + investigate_api_key
-}
+headers = {'Authorization': f'Bearer {investigate_api_key}'}
 
 # assemble the URI, show labels give readable output
 get_url = investigate_url + domain + "?showLabels"

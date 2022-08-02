@@ -79,7 +79,7 @@ def login(host=FDM.get("host"),
     url = MISSION
 
     r = requests.post(url, json=payload, verify=False, headers=headers)
-    access_token = "Bearer %s" % r.json()['access_token']
+    access_token = f"Bearer {r.json()['access_token']}"
     headers['Authorization'] = access_token
 
 def get_spec_json(host=FDM.get("host"),
@@ -90,8 +90,9 @@ def get_spec_json(host=FDM.get("host"),
     http_client.session.verify = False
     http_client.session.headers = headers
     url = f"https://{host}:{port}/apispec/ngfw.json"
-    client = SwaggerClient.from_url(url, http_client=http_client, config={'validate_responses':False})
-    return client
+    return SwaggerClient.from_url(
+        url, http_client=http_client, config={'validate_responses': False}
+    )
 
 # ----------------
 def create_reference_model(client, model):
@@ -209,10 +210,7 @@ if __name__ == '__main__':
     clean_domains = MISSION
     env_lab.print_missing_mission_warn(env_lab.get_line())
 
-    url_objects = []
-    for doms in clean_domains:
-        url_objects.append(create_url_object(client, doms))
-
+    url_objects = [create_url_object(client, doms) for doms in clean_domains]
     #TODO Mission Create a url group using the url_objects created in the above steps:
     #Pass these 3 values to the proper function client, "your_picked_name_for_URL_Object", url objects create in above for loop
     env_lab.print_missing_mission_warn(env_lab.get_line())

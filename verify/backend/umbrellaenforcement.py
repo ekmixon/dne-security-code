@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+
 from datetime import datetime
 import requests
 import configparser
@@ -54,7 +55,7 @@ enforcement_api_key = UMBRELLA_ENFORCEMENT_KEY
 domain_url = "https://s-platform.api.opendns.com/1.0/domains"
 
 # URL needed for POST request
-url_get = domain_url + '?customerKey=' + enforcement_api_key
+url_get = f'{domain_url}?customerKey={enforcement_api_key}'
 
 # keep doing GET requests, until looped through all domains
 

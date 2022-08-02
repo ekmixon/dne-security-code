@@ -20,6 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 from datetime import datetime
 import requests
 import socket
@@ -70,9 +71,7 @@ investigate_url = f"{inv_u}/domains/categorization/"
 
 
 #create header for authentication
-headers = {
-    'Authorization': 'Bearer ' + investigate_api_key
-}
+headers = {'Authorization': f'Bearer {investigate_api_key}'}
 
 def get_umbrella_dispos(domains):
     # put in right format to pass as argument in POST request

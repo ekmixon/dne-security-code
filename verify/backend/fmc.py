@@ -85,12 +85,17 @@ def fmc_authenticate(
 def verify() -> bool:
     """FMC APIs"""
     print(blue("\n==> Verifying access to the FMC APIs"))
-    
+
     try:
-        if(len(fmc_authenticate())):
+        if (len(fmc_authenticate())):
             print(green(f"Firepower FMC API is accessible\n"))
         else:
-            print(red(f"Firepower FMC API is accessible, but something went wrong... Check Credentials?"))
+            print(
+                red(
+                    "Firepower FMC API is accessible, but something went wrong... Check Credentials?"
+                )
+            )
+
     except:
         print(red("Unable to contact FMC"))
         return False

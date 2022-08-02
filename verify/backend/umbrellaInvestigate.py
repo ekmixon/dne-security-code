@@ -47,29 +47,25 @@ from env_user import UMBRELLA_INVESTIGATE_KEY  # noqa
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 # API key from evn_user.py
 
-def doUmbrellaGet() :
+def doUmbrellaGet():
     investigate_api_key = UMBRELLA_INVESTIGATE_KEY
     # URL needed for the domain status and category
     #create header for authentication
-    headers = {
-        'Authorization': 'Bearer ' + investigate_api_key
-    }
+    headers = {'Authorization': f'Bearer {investigate_api_key}'}
     # # investigate_url = "https://investigate.api.umbrella.com/domains/categorization/"
     inv_u = UMBRELLA.get("inv_url")
-    investigate_url = f"{inv_u}/domains/categorization/" 
+    investigate_url = f"{inv_u}/domains/categorization/"
     # domain that will be checked
     domain = "internetbadguys.com"
     #create header for authentication
-    headers = {
-        'Authorization': 'Bearer ' + investigate_api_key
-        }
+    headers = {'Authorization': f'Bearer {investigate_api_key}'}
     # assemble the URI, show labels give readable output
     get_url = investigate_url + domain + "?showLabels"
 
     #do GET request for the domain status and category
     try:
         req = requests.get(get_url, headers=headers)
-        
+
         # time for timestamp of verdict domain
         if(req.status_code == 200):
             return "Green"
